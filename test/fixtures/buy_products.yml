@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_id: MyString
+  contact_number: 1
+  user: one
+  sell_product: one
+
+two:
+  order_id: MyString
+  contact_number: 1
+  user: two
+  sell_product: two

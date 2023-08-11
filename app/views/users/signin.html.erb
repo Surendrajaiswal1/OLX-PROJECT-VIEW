@@ -1,0 +1,10 @@
+<p style='color:red'> <%= flash[:notice] %> </p>
+<h1>Welcome To MyOlxProject</h1>
+<h1>Login Yourself</h1>
+<%= form_with url: '/users/login',method: :post do |form| %>
+  <%= form.label :email %> <br>
+  <%= form.text_field :email %> <br>
+  <%= form.label :password %> <br>
+  <%= form.text_field :password %> <br>
+  <%= form.submit "SignIn" %>
+<% end %>

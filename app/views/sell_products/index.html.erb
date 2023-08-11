@@ -1,0 +1,22 @@
+<%= button_to "Sell Products", "/products/current_user_products", method: :get %><br>
+ <%= button_to " Buy Products", "/purchases/current_user_sold_products", method: :get %><br>
+  <%= button_to "Sign_out", users_path, method: :delete %> <br>
+<h1>Products</h1>
+  <%= form_with url: "/sell_products", method: :get do |form| %>
+  <%= form.label :name, "Search for:" %>
+  <%= form.text_field :name %>
+  <%= form.submit "Search" %>
+<% end %>
+<ul>
+  <% @sell_products.each do |product| %>
+    <li>
+        Name:<%= product.name %><br>
+        Price:<%= product.price  %><br>
+        Description:<%= product.description %><br>
+        Image:<%= image_tag(product.image) %> <br>
+        Product_id:<%= product.alphanumeric_id %><br>
+        <%= button_to "Buy", buy_product_path(product.id), method: :get %>
+      </li>
+  <% end %>
+</ul>
+  <%= button_to "+ Sell", new_sell_product_path, method: :get %><br>

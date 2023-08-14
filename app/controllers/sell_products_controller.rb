@@ -1,15 +1,19 @@
 class SellProductsController < ApplicationController
   before_action :authenticate_user
-  before_action :get_product, only: [:show, :update, :destroy]
+  before_action :get_product, only: [:show, :edit, :update, :destroy]
 
   def new
-    @product = @current_user.sell_products.new
+    @product = SellProduct.new
   end
 
   def create
     @product = @current_user.sell_products.new(set_params)
-    return render @product if @product.save
-    redirect_to sell_products
+    if @product.save
+      redirect_to products_path
+    else
+      flash[:add] = 'Product was not added '
+      render 'new_sell_product'
+    end
   end
 
   def show
@@ -19,32 +23,37 @@ class SellProductsController < ApplicationController
   def index
      if params[:name].present?
       name = params[:name].strip
-      products = @current_user.sell_products.where("name LIKE '%#{name}%'")
-      render json: products
+      @products = @current_user.sell_products.where("name LIKE '%#{name}%'")
+      # render json: products
     elsif params[:alphanumeric_id].present?
       alphanumeric_id = params[:alphanumeric_id].strip
-      products = @current_user.sell_products.where("alphanumeric_id LIKE '%#{alphanumeric_id}%'")
-      render json: products
+      @products = @current_user.sell_products.where("alphanumeric_id LIKE '%#{alphanumeric_id}%'")
+      # render json: products
     else
-      all_products = @current_user.sell_products.page(params[:page])
-      return render json: all_products unless all_products.empty?
-      render json: {message: "NO PRODUCT AVAILABLE"}
+      @products = @current_user.sell_products.page(params[:page])
+      # return render json: all_products unless all_products.empty?
+      # render json: {message: "NO PRODUCT AVAILABLE"}
     end
   end
 
+  def edit
+  end
+
   def update
-    return render json: @product if @product.update(set_params)
-      render json: {message: "Updation failed"}
+    unless @product.update(set_params)
+      flash[:sell] = 'Updation failed'
+    end
   end
 
   def destroy
-    return render json: @product if @product.delete
-     render json: {message: "PRODUCT DELETION FAILED"}
+    unless @product.delete
+      flash[:sell] = 'PRODUCT DELETION FAILED'
+    end
   end
 
  private
     def set_params
-      params.permit(:name, :price, :description, :category_id, :image)
+      params.require(:sell_product).permit(:name, :price, :description, :category_id, :image)
     end
 
     def get_product

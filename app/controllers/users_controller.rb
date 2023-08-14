@@ -14,10 +14,9 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by(email: params[:email], password: params[:password])
-    # debugger
     if @user.present?
       session[:current_user] = jwt_encode(user_id: @user.id)
-      redirect_to @user
+      redirect_to products_path
     else
       render "users/signin", status: :unauthorized
     end

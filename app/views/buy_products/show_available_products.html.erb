@@ -1,6 +1,8 @@
-<p style='color:red'> <%= flash[:sell] %> </p>
+<%= button_to "Your Sell Products", "/sell_products", method: :get %><br>
+ <%= button_to " Buy Products", "/buy_products", method: :get %><br>
+  <%= button_to "Sign_out", users_path, method: :delete %> <br>
 <h1>Products</h1>
-  <%= form_with url: "/sell_products", method: :get do |form| %>
+  <%= form_with url: "/products", method: :get do |form| %>
   <%= form.label :name, "Search Products:" %>
   <%= form.text_field :name %>
   <%= form.submit "Search" %>
@@ -14,8 +16,7 @@
           Image:  <%= image_tag product.image, height: 100 %> <br>
           Description:<%= product.description %><br>
           Product_id:<%= product.alphanumeric_id %><br>
-          <%= button_to "edit", edit_sell_product_path(product.id), method: :get %>
-          <%= button_to "delete", sell_product_path(product.id), method: :delete %>
+          <%= button_to "Buy", buy_product_path(product.id), method: :get %>
         </li>
     <% end %>
   <% else %>

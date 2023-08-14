@@ -1,5 +1,4 @@
-<p style='color:red'> <%= flash[:add] %> </p>
-<h1>Add Your Product For Sell</h1>
+<h1>Edit Your Product</h1>
 <%= form_with model: @product, url: '/sell_products', method: :post do |form| %>
   <%= form.label :Select_category %><br>
   <%= form.collection_select :category_id, Category.order(:category_name), :id, :category_name %> <br>

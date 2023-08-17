@@ -1,0 +1,13 @@
+<h1> All Categories </h1>
+<% if @categories.present? %>
+  <ul>
+    <% @categories.each do |category| %>
+      <li>
+      <%= button_to category.category_name, category_path(category.id) , method: :get %><br>
+      </li>
+    <% end %>
+  <% else %>
+    <% flash[:message] = "Categories is not available" %>
+    <p style='color:red'> <%= flash[:message] %> </p>
+  </ul>
+<%end%>

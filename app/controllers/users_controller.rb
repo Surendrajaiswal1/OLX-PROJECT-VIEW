@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, only: [:edit, :show, :update, :destroy]
-  before_action :get_user, only: [:edit,:show, :update, :destroy]
+  # before_action :get_user, only: [:edit,:show, :update, :destroy]
 
   def new
     @user = User.new
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.find_by(email: params[:email], password: params[:password])
     if @user.present?
       session[:current_user] = jwt_encode(user_id: @user.id)
-      redirect_to products_path
+      redirect_to show_available_products_buy_products_path
     else
       render "users/signin", status: :unauthorized
     end
@@ -32,8 +32,8 @@ class UsersController < ApplicationController
   def destroy
     session.delete(:current_user)
     @current_user = nil
-    flash[:notice] = "Account Deleted"
-    redirect_to new_user_path
+    flash[:notice] = "Successfully Logout"
+    redirect_to login_path
   end
 
   def edit

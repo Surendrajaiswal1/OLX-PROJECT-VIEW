@@ -1,5 +1,5 @@
 class BuyProduct < ApplicationRecord
- validates :contact_number, presence: true, :numericality => true, :length => { :minimum => 10, :maximum => 10 }
+ # validates :contact_number, presence: true, :numericality => true, :length => { :minimum => 10, :maximum => 10 }
   belongs_to :user
   belongs_to :sell_product
   before_save :set_unique_id

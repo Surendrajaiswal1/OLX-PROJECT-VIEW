@@ -8,9 +8,9 @@ class SellProduct < ApplicationRecord
   has_many :buy_products, dependent: :destroy
   has_one_attached :image
   before_save :set_unique_id
-  before_save :status_update
+  # before_save :status_update
 
-  enum status: [ :available, :sold ]
+  enum status: {available: "available", sold:"sold"}
 
   def set_unique_id
     id = SecureRandom.hex[0..7]

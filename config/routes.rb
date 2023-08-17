@@ -2,19 +2,17 @@ Rails.application.routes.draw do
   #.........................USER......................................
   post 'users/login'
   get '/login', to: 'users#signin'
-  resources :users
+
+  resource :users
    #......................SELL_PRODUCT.................................
   resources :sell_products
 
-  #.........................USER......................................
-  post 'users/login'
-  resources :users
-
   #.......................BUY_PRODUCT....................................
-  get '/products', to: 'buy_products#show_available_products'
-  get 'show/category', to: 'buy_products#show_data_category_wise'
-  resources :buy_products
-
+  resources :buy_products   do
+  get 'show_available_products', on: :collection
+  get 'show_data_category_wise',on: :collection
+  get 'buy', on: :member
+   end
   #.......................CATEGORY....................................
   resources :categories
 end

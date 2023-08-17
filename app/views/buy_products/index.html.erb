@@ -1,0 +1,23 @@
+<p style='color:red'> <%= flash[:add] %> </p>
+<h1>Buy Products</h1>
+  <%= form_with url: "/buy_products", method: :get do |form| %>
+  <%= form.label :name, "Search Products:" %>
+  <%= form.text_field :name %>
+  <%= form.submit "Search" %>
+<% end %>
+<ul>
+  <% if @product.present? %>
+    <% @product.each do |product| %>
+      <li>
+          Name:<%= product.sell_product.name %><br>
+          Price:<%= product.sell_product.price  %><br>
+          Image:  <%= image_tag product.sell_product.image, height: 100 %> <br>
+          Description:<%= product.sell_product.description %><br>
+          Product_id:<%= product.sell_product.alphanumeric_id %><br>
+        </li>
+    <% end %>
+  <% else %>
+    <%     flash[:message] = "Order History Is Empty" %>
+    <p style='color:red'> <%= flash[:message] %> </p>
+  <%end%>
+</ul>

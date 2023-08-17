@@ -9,7 +9,8 @@ class SellProductsController < ApplicationController
   def create
     @product = @current_user.sell_products.new(set_params)
     if @product.save
-      redirect_to products_path
+      @product.available!
+      redirect_to show_available_products_buy_products_path
     else
       flash[:add] = 'Product was not added '
       render 'new_sell_product'
@@ -21,18 +22,15 @@ class SellProductsController < ApplicationController
   end
 
   def index
-     if params[:name].present?
+     if params[:choice] == "name" && params[:name].present?
       name = params[:name].strip
       @products = @current_user.sell_products.where("name LIKE '%#{name}%'")
       # render json: products
-    elsif params[:alphanumeric_id].present?
+    elsif params[:choice] == "alphanumeric_id" && params[:alphanumeric_id].present?
       alphanumeric_id = params[:alphanumeric_id].strip
       @products = @current_user.sell_products.where("alphanumeric_id LIKE '%#{alphanumeric_id}%'")
-      # render json: products
     else
       @products = @current_user.sell_products.page(params[:page])
-      # return render json: all_products unless all_products.empty?
-      # render json: {message: "NO PRODUCT AVAILABLE"}
     end
   end
 
